@@ -2,14 +2,11 @@ package sn.edu.ugb.demo.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "produits")
 public class Produit {
@@ -21,8 +18,8 @@ public class Produit {
     @Column(nullable = false)
     private String nom;
 
-    @Column(nullable = false)
-    private Double prix;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal prix;
 
     @Column(nullable = false)
     private Integer quantite;
