@@ -1,0 +1,18 @@
+<h2>Produits de la catégorie</h2>
+
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Prix</th>
+    <th>Quantité</th>
+  </tr>
+
+  <tr *ngFor="let p of produits">
+    <td>{{ p.id }}</td>
+    <td>{{ p.nom }}</td>
+    <td>{{ p.prix }}</td>
+    <td>{{ p.quantite }}</td>
+  </tr>
+</table>
+

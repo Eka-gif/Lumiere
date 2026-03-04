@@ -1,0 +1,28 @@
+<h2>📂 Gestion des Catégories</h2>
+
+<div style="margin-bottom: 15px;">
+  <input
+    [(ngModel)]="nouvelleCategorie.nom"
+    placeholder="Nom catégorie"
+  >
+  <button (click)="ajouter()">Ajouter</button>
+</div>
+
+<ul>
+  <li *ngFor="let cat of categories">
+    {{ cat.nom }}
+
+    <button
+      [routerLink]="['/categories', cat.id, 'produits']">
+      Voir Produits
+    </button>
+
+    <button (click)="supprimer(cat.id!)">
+      Supprimer
+    </button>
+  </li>
+</ul>
+
+<p *ngIf="categories.length === 0">
+  Aucune catégorie disponible.
+</p>

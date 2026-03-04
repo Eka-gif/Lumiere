@@ -1,5 +1,6 @@
 package sn.edu.ugb.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class Categorie {
 
     private String nom;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
     private List<Produit> produits;
 

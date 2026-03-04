@@ -1,5 +1,7 @@
 package sn.edu.ugb.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import lombok.Getter;
@@ -33,6 +35,8 @@ public class Produit {
     @Column
     private String description;
 
+    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
