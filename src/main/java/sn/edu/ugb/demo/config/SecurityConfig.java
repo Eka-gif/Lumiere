@@ -2,6 +2,8 @@ package sn.edu.ugb.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,6 +33,9 @@ public class SecurityConfig {
         http
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(
@@ -41,7 +46,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/categories/**").authenticated()
                         .requestMatchers("/api/stock/**").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/produits/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET, "/api/produits/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/produits/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/produits/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/produits/**").hasRole("ADMIN")
+                        .requestMatchers("/api/produits/export/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter,

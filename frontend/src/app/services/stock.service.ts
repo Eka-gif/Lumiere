@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Stock } from '../models/stock';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,11 +11,29 @@ export class StockService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Stock[]> {
-    return this.http.get<Stock[]>(this.apiUrl);
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  create(mouvement: Stock): Observable<Stock> {
-    return this.http.post<Stock>(this.apiUrl, mouvement);
+  entree(produitId: number, quantite: number) {
+    return this.http.post(`${this.apiUrl}/entree/${produitId}/${quantite}`, {});
+  }
+
+  sortie(produitId: number, quantite: number) {
+    return this.http.post(`${this.apiUrl}/sortie/${produitId}/${quantite}`, {});
+  }
+
+  getTotalEntrees() {
+    return this.http.get<number>('http://localhost:8080/api/stock/total-entrees');
+  }
+
+  getTotalSorties() {
+    return this.http.get<number>('http://localhost:8080/api/stock/total-sorties');
+  }
+  updateStock(id:number, stock:any){
+    return this.http.put(
+      `http://localhost:8080/api/stock/${id}`,
+      stock
+    );
   }
 }

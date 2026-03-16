@@ -5,14 +5,16 @@ import { RouterLink } from '@angular/router';
 import { CategorieService } from '../../services/categorie.service';
 import { Categorie } from '../../models/categorie';
 
+
 @Component({
   selector: 'app-categories',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './categories.component.html'
+  templateUrl: './categories.component.html',
+  styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-
+  message: string = '';
   categories: Categorie[] = [];
   nouvelleCategorie: Categorie = { nom: '' };
 
@@ -35,7 +37,9 @@ export class CategoriesComponent implements OnInit {
 
     this.categorieService.create(this.nouvelleCategorie)
       .subscribe({
+
         next: () => {
+          this.message = "Catégorie ajoutée avec succès";
           this.nouvelleCategorie = { nom: '' };
           this.charger();
         },

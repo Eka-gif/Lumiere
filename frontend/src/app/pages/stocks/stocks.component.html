@@ -1,1 +1,102 @@
-<p>stocks works!</p>
+<div class="container">
+  <div class="page-header">
+    <h2 class="page-title">Gestion du Stock</h2>
+  </div>
+
+  <div class="form-card">
+    <h3>Ajouter un mouvement</h3>
+
+    <div class="form-row">
+      <select [(ngModel)]="nouveauMouvement.type">
+        <option value="ENTREE">📥 Entrée</option>
+        <option value="SORTIE">📤 Sortie</option>
+      </select>
+
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="nouveauMouvement.quantite"
+        placeholder="Quantité"
+      />
+
+      <select
+        [(ngModel)]="nouveauMouvement.produit.id"
+        name="produit"
+        [disabled]="loading">
+
+
+        <option [value]="0">-- Choisir un produit --</option>
+
+        <option *ngFor="let p of produits" [value]="p.id">
+          {{ p.nom }} (Stock: {{ p.quantite || 0 }})
+        </option>
+      </select>
+
+
+      <div *ngIf="loading" class="loading-text">
+        ⏳ Chargement des produits...
+      </div>
+
+      <div *ngIf="!loading && produits.length === 0" class="error-text">
+        ⚠ Aucun produit disponible
+      </div>
+
+      <button
+        class="btn-add"
+        (click)="ajouter()"
+        [disabled]="nouveauMouvement.quantite <= 0 || !nouveauMouvement.produit.id || loading">
+        ✔ Ajouter
+      </button>
+
+      <p class="error" *ngIf="nouveauMouvement.quantite <= 0 && nouveauMouvement.quantite !== 0">
+        ❌ La quantité doit être supérieure à 0
+      </p>
+
+      <p class="error" *ngIf="!nouveauMouvement.produit.id && nouveauMouvement.quantite > 0">
+        ❌ Veuillez sélectionner un produit
+      </p>
+
+      <button *ngIf="nouveauMouvement.id" (click)="resetForm()" class="btn-cancel">
+        Annuler
+      </button>
+    </div>
+  </div>
+
+  <div class="history-card">
+    <h3>📋 Historique des mouvements</h3>
+
+
+    <div *ngIf="mouvements.length === 0" class="no-data">
+      Aucun mouvement de stock pour le moment
+    </div>
+
+    <table *ngIf="mouvements.length > 0">
+      <thead>
+      <tr>
+        <th>Type</th>
+        <th>Quantité</th>
+        <th>Produit</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let m of mouvements">
+        <td>
+            <span [ngClass]="m.type === 'ENTREE' ? 'badge-in' : 'badge-out'">
+              {{ m.type === 'ENTREE' ? '📥 Entrée' : '📤 Sortie' }}
+            </span>
+        </td>
+
+        <td>{{ m.quantite }}</td>
+
+
+        <td>{{ m.produit.nom || 'Produit inconnu' }}</td>
+
+
+        <td>{{ m.date | date:'dd/MM/yyyy HH:mm' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

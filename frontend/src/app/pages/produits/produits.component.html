@@ -1,13 +1,37 @@
 <div class="container">
+  <div class="page-header">
+   <h2 class="page-title">Gestion des Produits</h2>
+  </div>
 
-  <h2>Gestion des Produits</h2>
+  <div class="filters">
 
-  <!-- Message -->
-  <p *ngIf="message" class="message">
+    <input
+      type="text"
+      name="search"
+      placeholder="🔍 Rechercher un produit..."
+      [(ngModel)]="searchTerm"
+      (input)="searchProduits()" />
+
+    <select
+      [(ngModel)]="selectedCategory"
+      name="categorieFilter"
+      (change)="filterByCategory()">
+
+      <option value="">Toutes les catégories</option>
+
+      <option *ngFor="let c of categories" [value]="c.id">
+        {{ c.nom }}
+      </option>
+
+    </select>
+
+  </div>
+
+  <div *ngIf="message" class="toast">
     {{ message }}
-  </p>
+  </div>
 
-  <!-- FORMULAIRE -->
+
   <div class="card">
 
     <h3 *ngIf="!isEdit">Ajouter un produit</h3>
@@ -27,22 +51,37 @@
         placeholder="Prix"
         [(ngModel)]="newProduit.prix"
         name="prix"
+        min="0"
         required>
-
+      <p class="error" *ngIf="newProduit.prix < 0">
+        ❌ Le prix ne peut pas être négatif
+      </p>
       <input
         type="number"
         placeholder="Quantité"
         [(ngModel)]="newProduit.quantite"
         name="quantite"
+        min="0"
         required>
-
+      <p class="error" *ngIf="newProduit.quantite < 0">
+        ❌ Le quantité ne peut pas être négatif
+      </p>
       <input
         type="text"
         placeholder="Description"
         [(ngModel)]="newProduit.description"
         name="description">
 
-      <button type="submit">
+      <select [(ngModel)]="newProduit.categorie" name="categorie">
+        <option [ngValue]="undefined">-- Choisir une catégorie --</option>
+        <option *ngFor="let c of categories" [ngValue]="c">
+          {{ c.nom }}
+        </option>
+      </select>
+
+      <button
+        type="submit"
+        [disabled]="newProduit.prix < 0 || newProduit.quantite < 0">
         {{ isEdit ? 'Mettre à jour' : 'Ajouter' }}
       </button>
 
@@ -57,8 +96,8 @@
 
   </div>
 
-  <!-- TABLEAU -->
-  <div class="card">
+
+    <div class="card">
 
     <h3>Liste des Produits</h3>
 
@@ -87,8 +126,19 @@
         <td>{{ p.description }}</td>
 
         <td>
-          <button (click)="editProduit(p)">Modifier</button>
-          <button (click)="deleteProduit(p.id!)">Supprimer</button>
+          <button *ngIf="isAdmin()" (click)="editProduit(p)">
+            ✏
+          </button>
+          <button (click)="ouvrirModalSuppression(p)">
+            🗑
+          </button>
+          <button class="in" (click)="ouvrirEntree(p)">
+            📥
+          </button>
+
+          <button class="out" (click)="ouvrirSortie(p)">
+            📤
+          </button>
         </td>
 
       </tr>
@@ -98,4 +148,84 @@
 
   </div>
 
-</div>
+  <div class="pagination">
+
+    <button (click)="previousPage()" [disabled]="page == 0">
+      ⬅ Précédent
+    </button>
+
+    <span>Page {{ page + 1 }} / {{ totalPages }}</span>
+
+    <button (click)="nextPage()" [disabled]="page >= totalPages - 1">
+      Suivant ➡
+    </button>
+
+  </div>
+  <div *ngIf="modalSuppression" class="modal-backdrop">
+
+    <div class="modal-box">
+
+      <h3>Confirmer la suppression</h3>
+
+      <p>
+        Voulez-vous supprimer
+        <strong>{{ produitASupprimer?.nom }}</strong> ?
+      </p>
+
+      <div class="modal-actions">
+
+        <button class="btn-danger" (click)="confirmerSuppression()">
+          Confirmer
+        </button>
+
+        <button (click)="fermerModalSuppression()">
+          Annuler
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div class="modal-backdrop" *ngIf="modalStock">
+
+    <div class="modal-content">
+
+      <h3>Mouvement de stock</h3>
+
+      <p>Produit : {{ produitStock?.nom }}</p>
+
+      <input
+        type="number"
+        [(ngModel)]="quantiteMouvement"
+        placeholder="Quantité"
+        min="1"
+        [max]="produitStock?.quantite">
+
+      <div class="modal-actions">
+
+        <button
+          (click)="enregistrerMouvement()"
+          [disabled]="quantiteMouvement > produitStock?.quantite || quantiteMouvement <= 0">
+          Enregistrer
+        </button>
+        <p class="error" *ngIf="quantiteMouvement < 0">
+          ❌ Le quantite ne peut pas être négatif
+        </p>
+
+        <p class="error" *ngIf="quantiteMouvement > produitStock?.quantite">
+          ❌ stock insifisant
+        </p>
+        <button (click)="modalStock=false">
+          Annuler
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+
+

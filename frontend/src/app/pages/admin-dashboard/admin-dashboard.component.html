@@ -1,0 +1,110 @@
+<div class="container">
+ <div class="page-header">
+  <h2 class="page-title">Dashboard</h2>
+ </div>
+
+  <div class="stats-cards">
+    <button (click)="exportPdf()" class="btn-pdf">
+      📄 Télécharger rapport PDF
+    </button>
+    <button (click)="exportExcel()" class="btn-excel">
+      📊 Export Excel
+    </button>
+
+    <div class="card produits">
+      <h3>Produits</h3>
+      <p>{{stats.produits}}</p>
+    </div>
+
+    <div class="card categories">
+      <h3>Catégories</h3>
+      <p>{{stats.categories}}</p>
+    </div>
+
+    <div class="card utilisateurs">
+      <h3>Utilisateurs</h3>
+      <p>{{stats.utilisateurs}}</p>
+    </div>
+
+    <div class="card rupture">
+      <h3>Rupture Stock</h3>
+      <p>{{stats.rupture}}</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="charts">
+
+    <div class="chart-box">
+      <h3>Produits par catégorie</h3>
+      <canvas id="productsChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Mouvements de stock</h3>
+      <canvas id="stockChart"></canvas>
+    </div>
+
+  </div>
+
+
+
+  <div class="tables">
+
+    <div class="table-box">
+
+      <h3>Produits en rupture</h3>
+
+      <table>
+
+        <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Quantité</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let p of lowStockProducts">
+          <td>{{p.nom}}</td>
+          <td class="danger">{{p.quantite}}</td>
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="table-box">
+
+      <h3>Produits récents</h3>
+
+      <table>
+
+        <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prix</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let p of recentProducts">
+          <td>{{p.nom}}</td>
+          <td>{{p.prix}}</td>
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

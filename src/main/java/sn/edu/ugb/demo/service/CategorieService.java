@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sn.edu.ugb.demo.entity.Categorie;
 import sn.edu.ugb.demo.repository.CategorieRepository;
-
 import java.util.List;
 
 @Service

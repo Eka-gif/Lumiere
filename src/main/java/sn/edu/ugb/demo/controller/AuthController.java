@@ -6,12 +6,11 @@ import sn.edu.ugb.demo.entity.User;
 import sn.edu.ugb.demo.repository.UserRepository;
 import sn.edu.ugb.demo.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class  AuthController {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
@@ -34,6 +33,11 @@ public class AuthController {
                 .orElseThrow(() ->
                         new RuntimeException("Utilisateur introuvable"));
 
+
+        if (!user.isEnabled()) {
+            throw new RuntimeException("Compte désactivé");
+        }
+
         if (!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPassword())) {
@@ -48,8 +52,9 @@ public class AuthController {
         return Map.of("token", token);
     }
 
+
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
+    public Map<String, String> register(@RequestBody User user) {
 
         user.setPassword(
                 passwordEncoder.encode(user.getPassword())
@@ -59,6 +64,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return "Utilisateur créé";
+        return Map.of("message", "Utilisateur créé");
     }
+
 }

@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'ngx-toastr/toastr';
+
+.page-header{
+  align-items:center;
+  justify-content:flex-start;
+  margin-bottom:30px;
+}
+
+.container{
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.page-title{
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background: #ac3030;
+  padding:12px 20px;
+  border-radius:8px;
+}
+
+.subtitle{
+  text-align: center;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.error{
+  color:red;
+  margin-top:10px;
+  font-size:13px;
+  text-align:center;
+}

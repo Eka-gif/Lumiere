@@ -1,0 +1,70 @@
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+thead {
+  background-color: #2c3e50;
+  color: white;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.action {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.action.AJOUT {
+  background: #d4edda;
+  color: #155724;
+}
+
+.action.SUPPRESSION {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.action.MODIFICATION {
+  background: #fff3cd;
+  color: #856404;
+}
+
+@media (max-width: 768px) {
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+}

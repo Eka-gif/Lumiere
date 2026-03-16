@@ -1,28 +1,57 @@
-<h2>📂 Gestion des Catégories</h2>
+<div class="container">
+  <div class="page-header">
+   <h2 class="page-title">Gestion des Catégories</h2>
+  </div>
+  <p class="subtitle">Organisez vos produits par catégorie</p>
 
-<div style="margin-bottom: 15px;">
-  <input
-    [(ngModel)]="nouvelleCategorie.nom"
-    placeholder="Nom catégorie"
-  >
-  <button (click)="ajouter()">Ajouter</button>
+  <div class="card">
+
+    <input
+      [(ngModel)]="nouvelleCategorie.nom"
+      placeholder="Nom de la catégorie"
+    />
+
+    <button class="btn add" (click)="ajouter()">
+      ➕ Ajouter
+    </button>
+
+  </div>
+
+  <p class="message" *ngIf="message">
+    {{ message }}
+  </p>
+
+
+  <div class="categories-grid">
+
+    <div class="categorie-card" *ngFor="let cat of categories">
+
+      <div class="icon">📦</div>
+
+      <h3>{{ cat.nom }}</h3>
+
+      <div class="actions">
+
+        <button
+          class="btn view"
+          [routerLink]="['/categories', cat.id, 'produits']">
+          Voir Produits
+        </button>
+
+        <button
+          class="btn delete"
+          (click)="supprimer(cat.id!)">
+          Supprimer
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="empty" *ngIf="categories.length === 0">
+    Aucune catégorie disponible.
+  </p>
+
 </div>
-
-<ul>
-  <li *ngFor="let cat of categories">
-    {{ cat.nom }}
-
-    <button
-      [routerLink]="['/categories', cat.id, 'produits']">
-      Voir Produits
-    </button>
-
-    <button (click)="supprimer(cat.id!)">
-      Supprimer
-    </button>
-  </li>
-</ul>
-
-<p *ngIf="categories.length === 0">
-  Aucune catégorie disponible.
-</p>

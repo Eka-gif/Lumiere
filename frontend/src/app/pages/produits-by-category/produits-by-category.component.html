@@ -1,18 +1,137 @@
-<h2>Produits de la catégorie</h2>
+<div class="container">
 
-<table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Nom</th>
-    <th>Prix</th>
-    <th>Quantité</th>
-  </tr>
+  <div class="page-header">
 
-  <tr *ngFor="let p of produits">
-    <td>{{ p.id }}</td>
-    <td>{{ p.nom }}</td>
-    <td>{{ p.prix }}</td>
-    <td>{{ p.quantite }}</td>
-  </tr>
-</table>
+    <button class="back-btn" routerLink="/categories">
+      ←
+    </button>
 
+    <h2 class="page-title">Produits de la catégorie</h2>
+
+  </div>
+
+
+  <div class="toolbar">
+
+    <input
+      type="text"
+      placeholder="🔍 Rechercher un produit..."
+      [(ngModel)]="searchText"
+    >
+
+    <button class="sort-btn" (click)="trierPrix()">
+      Trier par prix
+    </button>
+
+  </div>
+
+
+  <div class="table-container">
+
+    <table>
+
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Quantité</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      <tr *ngFor="let p of produitsFiltres() | slice:(page*pageSize):((page+1)*pageSize)">
+
+        <td>{{ p.id }}</td>
+
+        <td class="nom">
+          {{ p.nom }}
+        </td>
+
+        <td class="prix">
+          {{ p.prix }} FCFA
+        </td>
+
+        <td>
+            <span class="stock" [class.low]="p.quantite < 5">
+              {{ p.quantite }}
+            </span>
+        </td>
+
+        <td class="actions">
+
+          <button class="edit" (click)="ouvrirModal(p)">
+            ✏
+          </button>
+
+          <button class="delete" (click)="supprimer(p.id)">
+            🗑
+          </button>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <div class="pagination">
+
+    <button (click)="page = page - 1" [disabled]="page == 0">
+      ⬅
+    </button>
+
+    <span>Page {{ page + 1 }}</span>
+
+    <button
+      (click)="page = page + 1"
+      [disabled]="(page+1)*pageSize >= produitsFiltres().length">
+      ➡
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="modal" *ngIf="modalOuvert">
+
+  <div class="modal-content">
+
+    <h3>Modifier produit</h3>
+
+    <input [(ngModel)]="produitSelectionne.nom" placeholder="Nom">
+
+    <input [(ngModel)]="produitSelectionne.prix" placeholder="Prix" >
+
+    <input [(ngModel)]="produitSelectionne.quantite" placeholder="Quantité">
+
+    <div class="modal-actions">
+
+      <button class="cancel" (click)="fermerModal()">
+        Annuler
+      </button>
+
+      <button class="save" (click)="sauvegarder()"
+      [disabled]="produitSelectionne.prix < 0 || produitSelectionne.quantite < 0">
+        Enregistrer
+      </button>
+
+      <p class="error" *ngIf="produitSelectionne.prix < 0">
+        ❌ Le prix ne peut pas être négatif
+      </p>
+
+      <p class="error" *ngIf="produitSelectionne.quantite < 0">
+        ❌ Le quantite ne peut pas être négatif
+      </p>
+    </div>
+
+  </div>
+
+</div>

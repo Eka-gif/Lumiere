@@ -1,0 +1,117 @@
+<div class="container">
+
+  <div class="page-header">
+    <h2 class="page-title">Gestion des utilisateurs</h2>
+  </div>
+
+  <div class="card">
+
+    <h3>Ajouter un utilisateur</h3>
+
+    <div class="form-group">
+
+      <input [(ngModel)]="newUser.username" placeholder="Username">
+
+      <input [(ngModel)]="newUser.password" type="password" placeholder="Password">
+
+      <select [(ngModel)]="newUser.role">
+        <option value="ROLE_USER">USER</option>
+        <option value="ROLE_ADMIN">ADMIN</option>
+      </select>
+
+      <button class="add-btn" (click)="addUser()">Ajouter</button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card" *ngIf="selectedUser">
+
+    <h3>Modifier utilisateur</h3>
+
+    <input [(ngModel)]="selectedUser.username" placeholder="Username">
+
+    <select [(ngModel)]="selectedUser.role">
+      <option value="ROLE_USER">USER</option>
+      <option value="ROLE_ADMIN">ADMIN</option>
+    </select>
+
+    <button (click)="updateUser()">Mettre à jour</button>
+
+    <button (click)="cancelEdit()">Annuler</button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Liste des utilisateurs</h3>
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        placeholder="Rechercher un utilisateur..."
+        [(ngModel)]="searchTerm"
+        (input)="filterUsers()"
+      />
+
+    </div>
+
+    <table>
+
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      <tr *ngFor="let u of filteredUsers">
+
+        <td>{{ u.id }}</td>
+
+        <td>{{ u.username }}</td>
+
+        <td>
+            <span class="role" [ngClass]="u.role">
+              {{ u.role }}
+            </span>
+        </td>
+
+        <td>
+          <span *ngIf="u.enabled" class="active">Actif</span>
+          <span *ngIf="!u.enabled" class="inactive">Inactif</span>
+        </td>
+
+        <td>
+
+          <button (click)="editUser(u)">Modifier</button>
+
+          <button (click)="toggleUser(u.id!)">
+            {{u.enabled ? 'Désactiver' : 'Activer'}}
+          </button>
+
+          <button (click)="deleteUser(u.id!)">🗑</button>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+
+

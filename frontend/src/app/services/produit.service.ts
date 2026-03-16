@@ -11,20 +11,19 @@ export class ProduitService {
   private apiUrl = 'http://localhost:8080/api/produits';
 
   constructor(private http: HttpClient) {}
-
-  getProduits(): Observable<Produit[]> {
-    return this.http.get<Produit[]>(this.apiUrl);
+  getAll(){
+    return this.http.get<any[]>(this.apiUrl);
   }
 
+  getAllForStock(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
   getProduitsByCategory(id: number) {
     return this.http.get<any[]>(
       `http://localhost:8080/api/categories/${id}/produits`
     );
   }
 
-  getProduit(id: number): Observable<Produit> {
-    return this.http.get<Produit>(`${this.apiUrl}/${id}`);
-  }
 
   addProduit(produit: Produit): Observable<Produit> {
     return this.http.post<Produit>(this.apiUrl, produit);

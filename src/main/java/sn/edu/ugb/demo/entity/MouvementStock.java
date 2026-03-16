@@ -14,11 +14,14 @@ public class MouvementStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; // ENTREE ou SORTIE
+    private String type;
     private int quantite;
 
     private LocalDateTime date;
 
     @ManyToOne
     private Produit produit;
+    public MouvementStock() {
+        this.date = LocalDateTime.now();
+    }
 }

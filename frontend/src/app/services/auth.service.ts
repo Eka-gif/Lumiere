@@ -15,7 +15,14 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
+  register(user:any){
 
+    return this.http.post(
+      "http://localhost:8080/api/auth/register",
+      user
+    );
+
+  }
   login(username: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, {
       username,
@@ -26,17 +33,5 @@ export class AuthService {
         localStorage.setItem('token', response.token);
       })
     );
-  }
-
-  logout(): void {
-    localStorage.removeItem('token');
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken();
   }
 }

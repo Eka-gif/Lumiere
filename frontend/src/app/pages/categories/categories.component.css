@@ -1,46 +1,68 @@
-h2 {
-  margin-bottom: 15px;
+.btn{
+  padding:10px 15px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:500;
 }
 
-.form-container {
-  margin-bottom: 20px;
+.btn.add{
+  background:#2ecc71;
+  color:white;
 }
 
-input {
-  padding: 8px;
-  margin-right: 10px;
+.btn.view{
+  background:#3498db;
+  color:white;
 }
 
-button {
-  padding: 6px 10px;
-  margin-right: 5px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.btn.delete{
+  background:#e74c3c;
+  color:white;
 }
 
-.view {
-  background-color: #1976d2;
-  color: white;
+
+.categories-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
 }
 
-.edit {
-  background-color: #ffa000;
-  color: white;
+
+.categorie-card{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  transition:transform 0.2s;
 }
 
-.delete {
-  background-color: #e53935;
-  color: white;
+.categorie-card:hover{
+  transform:translateY(-5px);
 }
 
-.cancel {
-  background-color: gray;
-  color: white;
+.icon{
+  font-size:35px;
+  margin-bottom:10px;
 }
 
-.message {
-  color: green;
-  margin-bottom: 10px;
-  font-weight: bold;
+.actions{
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+
+.message{
+  text-align:center;
+  color:green;
+  margin-bottom:20px;
+}
+
+.empty{
+  text-align:center;
+  margin-top:40px;
+  color:#888;
 }

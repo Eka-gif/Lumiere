@@ -29,15 +29,23 @@ public class ProduitService {
     }
 
     public Produit updateProduit(Long id, Produit produit) {
+
         Produit p = produitRepository.findById(id).orElseThrow();
+
         p.setNom(produit.getNom());
         p.setPrix(produit.getPrix());
         p.setQuantite(produit.getQuantite());
         p.setDescription(produit.getDescription());
+        p.setCategorie(produit.getCategorie());
+
         return produitRepository.save(p);
     }
 
     public void deleteProduit(Long id) {
         produitRepository.deleteById(id);
+    }
+
+    public List<Produit> searchByName(String nom) {
+        return produitRepository.findByNomContainingIgnoreCase(nom);
     }
 }
